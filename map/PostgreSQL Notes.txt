@@ -1,0 +1,244 @@
+sudo forever-service install rpccr -f " --start" -s /var/lib/opengeo/geoserver/www/Node/socket.js
+sudo forever-service delete rpccr
+sudo status rpccr
+sudo start rpccr
+sudo stop rpccr
+sudo restart rpccr
+
+Services on amazon aws:
+birds
+baseball
+
+sudo service postgresql restart //restarts postgres in ubuntu
+sudo service tomcat6 restart  //restarts geoserver in ubuntu
+sudo forever start socket.js  //starts node app named socket through 'forever' module
+sudo forever stop socket.js  //stops node app named socket through 'forever' module
+forever list  //list node apps running through forever module
+
+/usr/lib/postgresql/9.3/bin   //postgres folder on felek
+/var/lib/opengeo/geoserver  //geoserver folder on felek
+
+pg_dump -Fc -t ned_10_resampled Riparian > ned_10_resampled.dump  //dump the table ned_10_resampled in the database Riparian into a file named ned_10_resampled.dump
+pg_restore -d Riparian ned_10_resampled.dump  //adds contents of ned_10_resampled.dump file to Riparian database
+
+pg_dump -Fc -t can_cov_01 -t solar_gain_cor_resampled -t ned_10_resampled -t imp_sur_06_resampled Riparian > rpccr_rasters.dump
+
+psql --version  //returns postgresql version number
+
+psql -U Jason -d Riparian
+\dt
+\drop table solar_gain_cor_resampled
+\q
+
+sudo createuser -U postgres -d -e -E -l -P -r -s Jason
+sudo -U postgres psql
+ALTER USER "jason" WITH PASSWORD 'Jason20!';
+
+update pg_hba.conf file by adding the following line to the end of the file:
+host	all	jason	all	md5
+
+reload configuration files without restarting postgres:
+sudo pg_ctlcluster 9.3 main reload
+
+cd C:\Program Files\PostgreSQL\9.3\bin
+
+raster2pgsql -d -I -C -M -l 2 -s 4326 -t 1000x1000 ..\EBTJV\base_flow_03.tif public.base_flow_03 | psql -d Riparian
+raster2pgsql -I -C -s 4326 -t 1000x1000 ..\EBTJV\can_cov_01_cor.tif public.can_cov_01_cor | psql -d Riparian
+raster2pgsql -I -C -s 4326 -t 1000x1000 ..\EBTJV\imp_sur_06.tif public.imp_sur_06 | psql -d Riparian
+raster2pgsql -I -C -s 4326 -t 1000x1000 ..\EBTJV\solar_gain.tif public.solar_gain | psql -d Riparian
+raster2pgsql -I -C -s 4326 -t 1000x1000 ..\EBTJV\solar_gain_cor.tif public.solar_gain_cor | psql -d Riparian
+raster2pgsql -I -C -s 4326 -t 1000x1000 ..\EBTJV\base_flow_03.tif public.base_flow_03 | psql -d Riparian
+raster2pgsql -I -C -s 4326 ..\EBTJV\base_flow_03.tif public.base_flow_test | psql -d Riparian
+raster2pgsql -I -C -s 4326 -t 100x100 ..\EBTJV\solar_gain_cor.tif public.solar_gain_cor_100 | psql -d Riparian
+
+raster2pgsql -I -C -s 4326 ..\EBTJV\can_cov_01_clipped.tif public.can_cov_01_clipped | psql -d Riparian
+raster2pgsql -I -C -s 4326 ..\EBTJV\solar_gain_cor_resampled_clipped.tif public.solar_gain_cor_resampled_clipped | psql -d Riparian
+raster2pgsql -I -C -s 4326 ..\EBTJV\imp_sur_06_resampled_clipped.tif public.imp_sur_06_resampled_clipped | psql -d Riparian
+
+raster2pgsql -I -C -s 4326 -t 8000x8000 ..\EBTJV\solar_gain_cor_resampled.tif public.solar_gain_cor_resampled_8000 | psql -d Riparian
+
+shp2pgsql -c -D -s 4326 -I  ..\EBTJV\EBTJV_Boundary.shp public.EBTJV_Boundary | psql -d Riparian
+shp2pgsql -c -D -s 4326 -I  ..\EBTJV\HUC_10.shp public.HUC_10 | psql -d Riparian
+shp2pgsql -c -D -s 4326 -I ..\EBTJV\catchments_merged_hudy_2012 public.catchments_merged_hudy_2012 | psql -d Riparian
+
+shp2pgsql -c -D -s 4326 -I /var/lib/opengeo/geoserver/EBTJV/Lines/NHDPlus2_Streams_wgs84 public.NHDPlus2_Streams_wgs84 | psql -U Jason -d Riparian 
+
+pgsql2shp -f SHED_catchments.shp -h felek.cns.umass.edu -p 5432 -u Jason conte_dev gis.catchments
+
+import file geodatabase:
+ogr2ogr -f "PostgreSQL" PG:"host=localhost port=5432 dbname=crossings user=Jason password=Jason20!" "/home/jason/ebtjv/EBTJV_Range-Wide_Layers.gdb" "EBTJV_Patches_BKT_09_23_15" -t_srs "EPSG:4326" -overwrite -progress --config PG_USE_COPY YES
+
+
+gdalinfo ..\EBTJV\base_flow_03.tif
+
+gdal_translate –of PNG “PG:host=localhost port=5432 dbname=Riparian user=Jason password=Jason20! schema=public table=base_flow_03 mode=2” baseFlow_export.png
+gdal_translate –of GTiff PG:"host=localhost port=5432 dbname=Riparian user=Jason password=Jason20! schema=public table=base_flow_03 mode=2” baseFlow_export.tif
+gdalinfo "PG:host=localhost port=5432 dbname=Riparian user=Jason password=Jason20! schema=public table=base_flow_03"
+
+SELECT ST_NotSameAlignmentReason(r1.rast, r2.rast)
+FROM can_cov_01 as r1 CROSS JOIN ned_10_resampled as r2
+WHERE r1.rid = 2020 and r2.rid = 2020;
+
+select st_astiff(reset) as values
+from (select st_setupperleft(r1.rast, st_upperleftx(r2.rast), st_upperlefty(r2.rast)) as reset
+from imp_sur_clipped as r1, can_cov_clipped as r2) as foo;
+
+SELECT rid, (foo.md).*
+FROM (SELECT rid, ST_MetaData(rast) As md
+FROM sol_gain_clipped) As foo;
+
+SELECT rid, ST_Height(rast) As rastheight
+FROM base_flow_03
+ORDER BY rastheight, rid desc;
+
+SELECT rid, ST_Value(rast, ST_SetSRID(ST_Point(-81.669, 37.044), 4326)) As pntVal
+FROM base_flow_03;
+
+SELECT rid, ST_Value(rast, ST_SetSRID(ST_Point(-72.92470, 42.68499), 4326)) As pntVal
+FROM can_cov_01;
+
+SELECT rid, st_count(st_clip(r.rast,p.geom), 1, true) as tmpVals
+from base_flow_03 as r, huc_10 as p
+where p.objectid = '1504' or p.objectid = '500';
+
+SELECT st_count(st_clip(r.rast,p.geom), 1, true)
+from solar_gain_cor as r, huc_10 as p
+where p.objectid = '1504' and (r.rid >= 1877 and r.rid <= 1879);
+
+SELECT st_count(st_clip(a.rast,b.geom), 1, true) as count
+FROM solar_gain_cor_resampled a, huc_10 b
+where b.objectid = '1504' and (a.rid = 2020 or a.rid = 2021);
+
+SELECT (foo).rid, (tmpVals).*
+FROM (SELECT r.rid, ST_ValueCount(st_clip(r.rast,p.geom), 1, true) As tmpvals
+FROM solar_gain_cor As r, huc_10 As p
+WHERE p.objectid = '1504') as foo
+ORDER BY (tmpvals).value;
+
+Select foo.*
+From (SELECT ST_AsTIFF(rast) as values
+FROM solar_gain_cor
+WHERE rid = 1877 or rid = 1878) as foo;
+
+SELECT (foo).rid, (tmpvals).* FROM (SELECT r.rid, ST_ValueCount(st_clip(r.rast,p.geom), 1, true) As tmpvals FROM solar_gain_cor As r, " + layer + " As p WHERE p.objectid = '" + id + "' and (r.rid = 1877 or r.rid = 1878)) as foo ORDER BY (tmpvals).value;
+
+SELECT foo.* 
+FROM (SELECT r.rid, ST_Count(ST_Clip(r.rast,p.geom), 1, true) as count 
+FROM solar_gain_cor as r, huc_10 as p 
+WHERE p.objectid = '1504') as foo 
+WHERE count > 0;
+
+SELECT ST_AsTIFF(r_union) as values
+FROM (SELECT ST_Union(r_clip) AS r_union
+FROM (SELECT ST_Clip(r.rast, p.geom, 1, true) as r_clip
+FROM solar_gain_cor as r, huc_10 as p
+WHERE p.objectid = '1504' and (r.rid = 1877 or r.rid = 1878 or r.rid = 1879)) as foo) as foo2;
+
+*****ArcGIS Map Algebra Expression****
+Con(("Sol_gain_clipped.tif" >= 1431)  &  ("imp_sur_10_French_Creek.tif" <= 10),1,0)
+Con(("arcGIS 2 layer test.tif" == 1)  &  ("can_cov_01.tif" <= 70),1,0)
+
+Con(("Sol_gain_clipped.tif" >= 1431)  &  ("can_cov_01.tif" <= 70)  & ("imp_sur_10_French_Creek.tif" <= 10),1,0)
+
+Con(("solar_gain_cor_resampled.tif" >= 1431)  &  ("can_cov_01_clipped.tif" <= 70)  & ("imp_sur_06_resampled.tif" <= 10)  &  ("ned_10_resampled.tif" >= 600),1,0)
+
+SELECT ST_MapAlgebra(kb.rast, kb1.rast, '[rast1] + [rast2]') as rast 
+FROM can_cov_clipped kb, imp_sur_clipped kb1
+WHERE st_intersects(kb.rast, kb1.rast)
+
+SELECT (pvc).*
+FROM (SELECT ST_ValueCount(map_algebra) as pvc
+FROM (SELECT ST_MapAlgebra(kb.rast, kb1.rast, '[rast1] - [rast2]') as map_algebra 
+FROM can_cov_clipped kb, imp_sur_clipped_resampled kb1
+WHERE st_intersects(kb.rast, kb1.rast))as foo) as foo2
+ORDER BY (pvc).value;
+
+SELECT ST_AsTIFF(rast) as tiffvals
+FROM (SELECT ST_MapAlgebra(a.rast, b.rast, '(CASE WHEN [rast1] >= 1431 and [rast2] <= 70 THEN 101 ELSE 100 END::int)') as rast 
+FROM solar_gain_cor_resampled_clipped a, can_cov_01_clipped b) as foo;
+
+SELECT foo.* 
+FROM (SELECT r.rid, ST_Count(ST_Clip(r.rast,p.geom), 1, true) as count 
+FROM imp_sur_06_resampled_4000 as r, huc_10 as p 
+WHERE p.objectid = '1504') as foo 
+WHERE count > 0;
+
+SELECT (foo).rid, ST_NotSameAlignmentReason(sgClip, b.rast)
+FROM (SELECT a.rid, ST_Clip(a.rast,c.geom) as sgClip
+FROM solar_gain_cor_resampled a, huc_10 c
+WHERE c.objectid = '1504' and (a.rid = 2020 or a.rid = 2021))as foo CROSS JOIN can_cov_01 b
+WHERE ST_Intersects(sgClip,b.rast) = 't';
+
+***2 layer map algebra
+SELECT ST_AsTIFF(ma1) as tiffvals
+FROM (SELECT ST_MapAlgebra(sgUnion, ccUnion, '(CASE WHEN [rast1] >= 1431 and [rast2] <= 70 THEN 101 ELSE 100 END::int)') as ma1 
+FROM (SELECT ST_Union(sgClip) as sgUnion
+FROM (SELECT ST_Clip(a.rast,b.geom) as sgClip
+FROM solar_gain_cor_resampled a, huc_10 b
+WHERE (b.objectid = '1504') and (a.rid = 2020 or a.rid = 2021)) as foo) as foo2,
+(SELECT ST_Union(ccClip) as ccUnion
+FROM (SELECT ST_Clip(a.rast,b.geom) as ccClip
+FROM can_cov_01 a, huc_10 b
+WHERE (b.objectid = '1504') and (a.rid = 2020 or a.rid = 2021)) as foo3) as foo4) as foo5;
+
+***3 layer map algebra
+SELECT ST_AsTIFF(ma2) as tiffvals
+FROM (SELECT ST_MapAlgebra(isUnion, ma1, '(CASE WHEN [rast1] <= 10 and [rast2] = 101 THEN 101 ELSE 100 END::int)') as ma2
+FROM (SELECT ST_Union(isClip) as isUnion
+FROM (SELECT ST_Clip(a.rast, b.geom) as isClip
+FROM imp_sur_06_resampled a, huc_10 b
+WHERE (b.objectid = '1504') and (a.rid = 2020 or a.rid = 2021)) as foo6) as foo7,
+(SELECT ST_MapAlgebra(sgUnion, ccUnion, '(CASE WHEN [rast1] >= 1431 and [rast2] <= 70 THEN 101 ELSE 100 END::int)') as ma1 
+FROM (SELECT ST_Union(sgClip) as sgUnion
+FROM (SELECT ST_Clip(a.rast,b.geom) as sgClip
+FROM solar_gain_cor_resampled a, huc_10 b
+WHERE (b.objectid = '1504') and (a.rid = 2020 or a.rid = 2021)) as foo) as foo2,
+(SELECT ST_Union(ccClip) as ccUnion
+FROM (SELECT ST_Clip(a.rast,b.geom) as ccClip
+FROM can_cov_01 a, huc_10 b
+WHERE (b.objectid = '1504') and (a.rid = 2020 or a.rid = 2021)) as foo3) as foo4) as foo5) as foo8;
+
+***4 layer map algebra
+SELECT ST_AsTIFF(ma3) as tiffvals
+FROM (SELECT ST_MapAlgebra(isUnion, ma2, '(CASE WHEN [rast1] <= 10 and [rast2] = 101 THEN 101 ELSE 100 END::int)') as ma3
+FROM (SELECT ST_Union(isClip) as isUnion
+FROM (SELECT ST_Clip(a.rast, b.geom) as isClip
+FROM imp_sur_06_resampled a, huc_10 b
+WHERE (b.objectid = '1504') and (a.rid = 2020 or a.rid = 2021)) as foo8) as foo9,
+(SELECT ST_MapAlgebra(elUnion, ma1, '(CASE WHEN [rast1] >= 600 and [rast2] = 101 THEN 101 ELSE 100 END::int)') as ma2
+FROM (SELECT ST_Union(elClip) as elUnion
+FROM (SELECT ST_Clip(a.rast, b.geom) as elClip
+FROM ned_10_resampled a, huc_10 b
+WHERE (b.objectid = '1504') and (a.rid = 2020 or a.rid = 2021)) as foo6) as foo7,
+(SELECT ST_MapAlgebra(sgUnion, ccUnion, '(CASE WHEN [rast1] >= 1431 and [rast2] <= 70 THEN 101 ELSE 100 END::int)') as ma1 
+FROM (SELECT ST_Union(sgClip) as sgUnion
+FROM (SELECT ST_Clip(a.rast,b.geom) as sgClip
+FROM solar_gain_cor_resampled a, huc_10 b
+WHERE (b.objectid = '1504') and (a.rid = 2020 or a.rid = 2021)) as foo) as foo2,
+(SELECT ST_Union(ccClip) as ccUnion
+FROM (SELECT ST_Clip(a.rast,b.geom) as ccClip
+FROM can_cov_01 a, huc_10 b
+WHERE (b.objectid = '1504') and (a.rid = 2020 or a.rid = 2021)) as foo3) as foo4) as foo5) as foo10) as foo11;
+
+
+******Bounding Box clip queries
+SELECT a.rid
+FROM can_cov_01 a
+WHERE ST_Intersects(a.rast, ST_MakeEnvelope(-83.44, 35.81, -82.56, 36.18, 4326)) = 't';
+
+SELECT ST_AsTIFF(BBUnion) as tiffvals
+FROM (SELECT ST_Union(BBClip) as BBUnion
+FROM (SELECT ST_Clip(a.rast, ST_MakeEnvelope(-83.44, 35.81, -82.56, 36.18, 4326)) as BBClip
+FROM can_cov_01 a
+where a.rid = 1966 or a.rid = 1967 or a.rid = 1968 or a.rid = 2020 or a.rid = 2021 or a.rid = 2019) as foo) as foo2;
+
+SELECT a.rid
+FROM fac_ebtjv a
+WHERE ST_Intersects(a.rast, ST_SetSRID(ST_Point(1705981,2282310), 5071)) = 't';
+
+SELECT ST_Value(rast, ST_SetSRID(ST_Point(1705981,2282310), 5071)) as area
+FROM fac_ebtjv a
+WHERE a.rid = 1185;
+
+SELECT ST_Contains(a.geom, ST_SetSRID(ST_Point(-61.669, 37.044), 4326)) as contains
+FROM ebtjv_boundary a;

@@ -1,0 +1,25 @@
+.leaflet-control-print-interior {
+    background-image: url(images/print.png);
+    width: 36px;
+    height: 36px;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    display: block;
+    //padding: 1px;
+    border-radius: 4px;
+    cursor: auto;
+    text-align: center;
+    background-color: #FFFFFF;
+    cursor: pointer;
+    opacity: 1;
+    box-shadow: 0 1px 7px #999;
+    //border-width: 1px;
+    //border-style: solid;
+    //border-color: black;
+    box-sizing: content-box
+}
+
+.leaflet-control-print-interior:hover {
+    background-color: #F4F4F4;
+    opacity: 1;
+}

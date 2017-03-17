@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Sunderland Youth Baseball | Basketball Tournament</title>
+    <link rel="icon" type="image/png" href="../baseball.png">
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../syb.css">
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-93197974-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+ </head>
+  
+ <body>
+   <div id="navDiv">
+   <nav class="navbar navbar-inverse navbar-fixed-top">
+     <div class="container-fluid">
+       <div class="navbar-header">
+         <a class="navbar-brand" href="..">Sunderland Youth Baseball</a>
+       </div>
+       <ul class="nav navbar-nav">
+         <li><a href="..">Home</a></li>
+         <li><a href="../minors">Minors</a></li>
+         <li><a href="../rookies">Rookies</a></li>
+         <li><a href="../about">About SYB</a></li>
+         <li class="active"><a href="#">Basketball Tournament</a></li>
+         <li><a href="../map">Field Map</a></li>
+         <li><a href="../contact">Contact SYB</a></li>
+       </ul>
+     </div>
+   </nav>
+   </div>
+   <div id="content">
+     <div id="menu">
+       <ul class="nav nav-pills nav-stacked">
+         <li class="active" id="brackets" onclick="changePill(this)"><a href="#">Brackets</a></li>
+         <li id="teams" onclick="changePill(this)"><a href="#">Teams</a></li>
+         <li id="sponsors" onclick="changePill(this)"><a href="#">Sponsors</a></li>
+         <li id="program" onclick="changePill(this)"><a href="#">Program</a></li>
+         <li id="results" onclick="changePill(this)"><a href="#">Winners</a></li>
+       </ul>
+     </div>
+
+     <div id="tournament">
+       <div id="bracket-brackets" class="brackets" style="display:inline-block">
+         <ul class="nav nav-tabs">
+           <li class="active" id="bracket_3-4" onclick="changeTabBracket(this)"><a href="#">Grades 3/4</a></li>
+           <li id="bracket_5-6" onclick="changeTabBracket(this)"><a href="#">Grades 5/6</a></li>
+           <li id="bracket_7-8-9" onclick="changeTabBracket(this)"><a href="#">Grades 7/8/9</a></li>
+         </ul>
+         <img id="bracketImg" src="bracket_3-4.JPG" alt=""2017 SBT Grades 3-4 Bracket">
+       </div>
+       <div id="bracket-teams" class="brackets">
+         <ul class="nav nav-tabs">
+           <li class="active" id="teams_3-4" onclick="changeTabTeams(this)"><a href="#">Grades 3/4</a></li>
+           <li id="teams_5-6" onclick="changeTabTeams(this)"><a href="#">Grades 5/6</a></li>
+           <li id="teams_7-8-9" onclick="changeTabTeams(this)"><a href="#">Grades 7/8/9</a></li>
+         </ul>
+         <div id="teamNames"></div>
+         <img id="teamRoster">
+       </div>
+       <div id="bracket-sponsors" class="brackets">
+         <ul class="nav nav-tabs">
+           <li class="active" id="sponsor_Tournament" onclick="changeTabSponsors(this)"><a href="#">Tournament Level</a></li>
+           <li id="sponsor_Trophy" onclick="changeTabSponsors(this)"><a href="#">Trophy Level</a></li>
+           <li id="sponsor_Gold" onclick="changeTabSponsors(this)"><a href="#">Gold Level</a></li>
+           <li id="sponsor_Silver" onclick="changeTabSponsors(this)"><a href="#">Silver Level</a></li>
+           <li id="sponsor_Gifts" onclick="changeTabSponsors(this)"><a href="#">Gifts & Donations</a></li>
+         </ul>
+         <div id="sponsorNames"></div>
+         <img id="sponsorAd">
+       </div>
+       <div id="bracket-program" class="brackets">
+         <div id="programDiv">
+           <embed id="programPDF" src="SYB_Basketball_Tournament_Program_2017_ view_format.pdf">
+         </div>
+       </div>
+       <div id="bracket-results" class="brackets">
+         <ul class="nav nav-tabs">
+           <li class="active" id="teams_3-4" onclick="changeTabWinners(this)"><a href="#">Grades 3/4</a></li>
+           <li id="teams_5-6" onclick="changeTabWinners(this)"><a href="#">Grades 5/6</a></li>
+           <li id="teams_7-8-9" onclick="changeTabWinners(this)"><a href="#">Grades 7/8/9</a></li>
+         </ul>
+         <div id="teamPosition"></div>
+         <div id="teamPhotoDiv">
+           <img id="teamPhoto">
+         </div>
+       </div>
+     </div>
+  
+   </div>
+
+   <script>
+      function changePill(tmpID) {
+        d3.select("#menu").selectAll("li").classed("active", false);
+        d3.select(tmpID).classed("active", true);
+        d3.selectAll(".brackets").style("display", "none");
+        d3.select("#bracket-" + tmpID.id).style("display", "inline-block");
+      }
+
+      function changeTabBracket(tmpID) {
+        d3.select("#bracket-brackets").selectAll("li").classed("active", false);
+        d3.select(tmpID).classed("active", true);
+        d3.select("#bracketImg").property("src", tmpID.id + ".JPG");
+      }
+
+      function changeTabTeams(tmpID) {
+        d3.select("#bracket-teams").selectAll("li").classed("active", false);
+        d3.select(tmpID).classed("active", true);
+        listTeams();
+        var tmpImg = d3.select("#teamNames").select("div").select("label").property("value");
+        d3.select("#teamRoster").property("src", tmpImg);
+      }
+
+      function changeTabSponsors(tmpID) {
+        d3.select("#bracket-sponsors").selectAll("li").classed("active", false);
+        d3.select(tmpID).classed("active", true);
+        listSponsors();
+      }
+
+      function changeTabWinners(tmpID) {
+        d3.select("#bracket-results").selectAll("li").classed("active", false);
+        d3.select(tmpID).classed("active", true);
+        listPositions();
+        var tmpImg = d3.select("#teamPosition").select("div").select("label").property("value");
+        d3.select("#teamPhoto").property("src", tmpPhoto);
+      }
+
+
+      //Global Variables
+      teams = {};
+      sponsors = {}
+      positions = [{"pic":"first_place", "label":"Champion"}, {"pic":"second_place", "label":"Runner-Up"}];
+      queue()
+        .defer(d3.tsv, 'team_response.tsv')
+        .defer(d3.tsv, 'sponsors.tsv')
+        .await(displayIt);
+
+      function displayIt(errors, teamsTSV, sponsorsTSV) {
+        teams = teamsTSV;
+        sponsors = sponsorsTSV;
+        listTeams();
+        listSponsors();
+        listPositions();
+      }
+
+      function listTeams() {
+        //***remove all existing team name divs
+        var tmpDiv = d3.select("#teamNames");
+        tmpDiv.selectAll("div").remove();
+
+        var tmpBracket = d3.select("#bracket-teams").select(".active").attr("id");
+       
+        //***Add selected division teams
+        teams.forEach(function(d) {
+          if (tmpBracket.indexOf(d.Grade.slice(-1)) > -1) {
+            if (d.Playing == "Yes") {
+              switch (d.Grade.slice(-1)) {
+                case "4":
+                  var tmpImg = d.Abbrev + "_34.jpg";
+                  break;
+                case "6":
+                  var tmpImg = d.Abbrev + "_56.jpg";
+                  break;
+                case "9":
+                  var tmpImg = d.Abbrev + "_789.jpg";
+                  break;
+              }
+              var tmpName = d.Team.split(" ")[0] + " " + d.Mascot + " (" + d.Abbrev + ")";
+
+              tmpDiv.append("div")
+                .on("mouseover", function() { d3.select(this).select("label").style("color", "black"); })
+                .on("mouseout", function() { d3.select(this).select("label").style("color", "white"); })
+                .on("click", function() { d3.select("#teamRoster").property("src", d3.select(this).select("label").property("value")); d3.selectAll(".teamNameRadio").property("checked", false); d3.select(this).select("input").property("checked", true); })
+                .attr("class", "teamNameDiv")
+                .property("title", "Click to see team roster")
+                .append("label")
+                .property("value", tmpImg)
+                .attr("class", "teamNameLabel")
+                .html('<input id="chk_' + d.Abbrev + '" type="radio" class="teamNameRadio" name="teamRoster" value="' + tmpImg + '"></input><span>' + tmpName + '</span>')
+                .on("click", function() { d3.select("#teamRoster").property("src", this.value); });
+            }
+          }
+        });
+        var tmpDefault = d3.select("#teamNames").select("div").select("input");
+        tmpDefault.property("checked", true);
+        d3.select("#teamRoster").property("src", tmpDefault.property("value"));
+      }
+
+      function listSponsors() {
+        //***remove all existing sponsors
+        var tmpDiv = d3.select("#sponsorNames");
+        tmpDiv.selectAll("div").remove();
+
+        var tmpLevel = d3.select("#bracket-sponsors").select(".active").attr("id");
+       
+        //***Add selected division teams
+        sponsors.forEach(function(d) {
+          if (tmpLevel.indexOf(d.Level) > -1) {
+            tmpDiv.append("div")
+              .html('<a id="' + d.Abbrev + '" target="_blank" href="' + d.website + '" class="sponsorP" title="' + d.Business + '" value="' + d.Abbrev + '" onmouseover="loadAd(this)" onerror="this.src=&quot;ads/syb.jpg&quot;">' + d.Business + '</a><br>');
+          }
+        });
+        loadAd(d3.select("#sponsorNames").select("a")[0][0]);
+      }
+
+      function loadAd(tmpAd) {
+        d3.select("#sponsorAd")
+          .property("src", "ads/" + d3.select(tmpAd).attr("value") + ".jpg");
+      }
+
+      function listPositions() {
+        //***remove all existing team name divs
+        var tmpDiv = d3.select("#teamPosition");
+        tmpDiv.selectAll("div").remove();
+
+        var tmpDivision = d3.select("#bracket-results").select(".active").attr("id");
+
+        //***Add selected division teams
+        positions.forEach(function(d) {
+          var tmpPhoto= tmpDivision.slice(tmpDivision.indexOf("_") + 1) + "_" + d.pic + "_reduced.jpg";
+
+          tmpDiv.append("div")
+            .on("mouseover", function() { d3.select(this).select("label").style("color", "black"); })
+            .on("mouseout", function() { d3.select(this).select("label").style("color", "white"); })
+            .on("click", function() { d3.select("#teamPosition").property("src", d3.select(this).select("label").property("value")); d3.selectAll(".teamPositionRadio").property("checked", false); d3.select(this).select("input").property("checked", true); })
+            .attr("class", "teamNameDiv")
+            .property("title", "Click to see team photo")
+            .append("label")
+            .property("value", tmpPhoto)
+            .attr("class", "teamNameLabel")
+            .html('<input id="chk_' + d.pic + '" type="radio" class="teamPositionRadio" name="teamPosition" value="' + tmpPhoto+ '"></input><span>' + d.label + '</span>')
+            .on("click", function() { d3.select("#teamPhoto").property("src", this.value); });
+        });
+        var tmpDefault = d3.select("#teamPosition").select("div").select("input");
+        tmpDefault.property("checked", true);
+        d3.select("#teamPhoto").property("src", tmpDefault.property("value"));
+      }
+
+      $(window).on('scroll', function(e) {
+        //calculate left position
+        var left = $(this).scrollLeft();
+        //apply to header in negative
+        $('#navDiv').css('left', -left);
+      });
+   </script>
+
+ </body>
+</html>

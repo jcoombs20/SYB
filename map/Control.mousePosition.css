@@ -1,0 +1,19 @@
+.leaflet-container .leaflet-control-mouseposition {
+  background-color: rgba(255, 255, 255, 0.7);
+  //box-shadow: 0 0 5px #bbb;
+  padding: 0px 5px;
+  margin:0px 0px 5px 5px;
+  color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1em;
+  //margin-left: 5px;
+  font-weight: bold;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px;
+  border-color: black;
+}
+
+.leaflet-container .leaflet-control-mouseposition:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
