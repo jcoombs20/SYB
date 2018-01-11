@@ -1,6 +1,8 @@
 html{
   height: 100%;
   width: 100%;
+  min-height: 800px;
+  min-width: 1280px;
 }
 
 body {
@@ -9,8 +11,8 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 700px;
-  min-width: 1500px;
+  //min-height: 700px;
+  //min-width: 1500px;
   margin: 0;
   font-family: 'Open Sans', sans-serif;
   height: 100%;
@@ -24,7 +26,7 @@ body {
 }
 
 .navbar {
-  min-width: 1500px !important;
+  min-width: 1280px !important;
   position: absolute !important;
 }
 
@@ -35,13 +37,35 @@ body {
 }
 
 .navbar-nav {
-  max-width: 725px;
+  max-width: 760px;
   float: left;
   margin: 0px !important;
 }
 
 .nav>li {
   display: inline-block !important;
+}
+
+.inverse-dropdown {
+  background-color: #222;
+  border-color: #080808;
+}
+
+.inverse-dropdown>li>a{
+  color: #999;
+}
+
+.inverse-dropdown>li>a:hover{
+  color: #fff;
+  background-color: #000;
+}
+.inverse-dropdown>.divider {
+  background-color: #000;
+}
+
+.inverse-dropdown>.active>a, .inverse-dropdown>.active>a:focus, .inverse-dropdown>.active>a:hover {
+  color: #fff;
+  background-color: #080808;
 }
 
 #content {
@@ -52,14 +76,38 @@ body {
   background: -moz-linear-gradient(blue, lightblue, blue); /* For Firefox 3.6 to 15 */
   background: linear-gradient(blue, lightblue, blue); /* Standard syntax (must be last) */
   color: white;
-  width: 80%;
+  width: 90%;
   height: 100%;
-  margin: 0% 10% 0% 10%;
+  margin: 0% 5% 0% 5%;
   flex-grow: 1;
   flex-shrink: 0;
   display: flex;
   justify-content: center;
   padding: 50px 10px 0px 10px;
+  position: relative;
+}
+
+#emailSendDiv {
+  text-align: center;
+}
+
+#emailDiv input, #emailDiv textarea, #emailDiv button {
+  color: #333333;
+  border-radius: 4px;
+  padding-left: 2px;
+  border: 1px black solid;
+}
+
+#emailDiv button {
+  padding: 1px 5px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#emailDiv span {
+  text-shadow: 2px 2px 2px black;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 #content p {
@@ -70,6 +118,48 @@ body {
 #logo_div {
   margin-top: 5px;
   text-align: center;
+}
+
+.logo_div {
+  margin-top: 10px;
+  text-align: center;
+  max-height: 715px;
+  box-shadow: 5px 5px 10px 7px rgba(0,0,0,0.7)  
+}
+
+#defense, #lineup, #dugout {
+  height: 748px;
+  border: 1px solid black;
+  border-radius: 4px;
+  margin-left: 5px;
+  box-shadow: 5px 5px 10px 7px rgba(0,0,0,0.7);
+}
+
+.carousel-indicators {
+  bottom: -5px;
+  width: 100px;
+  margin-left: 0;
+  left: calc(50% - 50px);
+  background: rgba(255,255,255,0.5);
+  border-radius: 4px;
+}
+
+.carousel-indicators li {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  border-width: 2px;
+  margin-top: 5px;
+}
+
+.carousel-indicators .active {
+  background-color: royalblue;
+  width: 15px;
+  height: 15px;
+}
+
+.carousel-control {
+  width: 20px;
 }
 
 #reg_a {
@@ -88,6 +178,19 @@ body {
   width: 500px;
   border-style: none;
   display: inline-block;
+}
+
+#team_pic {
+  margin-top: 10px;
+  height: 715px;
+  border-radius: 5px;
+  box-shadow: 5px 5px 10px 7px rgba(0,0,0,0.7)
+}
+
+.team_pic {
+  height: 715px !important;
+  border-radius: 5px;
+  box-shadow: 5px 5px 10px 7px rgba(0,0,0,0.7)
 }
 
 #menu {
@@ -322,8 +425,164 @@ a.leaflet-control-layers-toggle {
   top: 550px;
 }
 
-@media {
+#headerControls {
+  background: #4d5980;
+  background: linear-gradient(#56638f, #434d70);
+  width: 100%;
+  min-width: 1280px;
+  position: absolute;
+  top: 51px;
+  left: 0px;
+  height: 37px;
+  display: block;
+  color: #b3d9ff;
+  padding: 1px 9px;
+  border-bottom: solid 1px black;
+  z-index: 1000;
+}
+
+.cl_select {
+  background: white;
+  border-radius: 4px;
+  padding: 3px;
+  border: 1px solid #666666;
+  color: #666666;
+  font-size: 13px;
+  background: lightgray;
+  background: linear-gradient(#f2f2f2, #cccccc);
+  height: 25px;
+  cursor: pointer;
+}
+
+.cl_select:hover {
+  border-color: black;
+  color: black;
+}
+
+.layerList {
+  display: inline-block;
+  float: left;
+  margin: 2px 5px;
+  padding: 3px 1px;
+}
+
+.layerList span {
+  opacity: 1;
+}
+
+.layerListDropdown {
+  display: inline-block;
+  position: absolute;
+  background: white;
+  border: 1px gray solid;
+  border-radius: 0px 0px 4px 4px;
+  color: #666666;
+  font-size: 13px;
+  z-index: 2000;
+  display: none;
+}
+
+.layerName {
+  padding: 0px 5px;
+}
+
+.layerName:hover {
+  color: black;
+  background: #f2f2f2;
+  cursor: pointer;
+  border-radius: 0px 0px 4px 4px;
+}
+
+#baselayerList {
+  width: 155px;
+  margin-left: 0px;
+}
+
+#baselayerListDropdown {
+  width: 155px;
+}
+
+#fieldList {
+  width: 235px;
+}
+
+#fieldListDropdown {
+  width: 235px;
+  max-height: 526px;
+  overflow-y: auto;
+}
+
+#bingGeocoderInput {
+  border-radius: 4px;
+  border: 1px solid gray;
+  padding: 2px 5px;
+  height: 25px;
+}
+
+#bingGeocoderSubmit {
+  margin-left: 0px;
+  height: 25px;
+  border: 1px solid lightgray;
+  background: #00ff00;
+  background: linear-gradient(#00ff00, #008000);
+  color: #003300;
+  opacity: 1;
+  text-shadow: 0px 1px white;
+  border-radius: 4px;
+  position: relative;
+  top: 2px;
+}
+
+#printDownload>span{
+  color: #b3d9ff;
+  opacity: 1;
+  font-size: 24px;
+  margin: 3px 20px 0px 0px;
+}
+
+#printDownload>span:hover {
+  color: white;
+}
+
+#bingGeocoderSubmit.glyphicon-remove {
+  background":"#ff0040;
+  background: linear-gradient(rgb(255, 0, 64), rgb(179, 0, 45));
+  color: rgb(153, 0, 0);
+}
+
+#bingGeocoderSubmit:hover {
+  border-color: white;
+}
+
+#bingGeocoderInput:hover {
+  color: black;
+  border-color: black;
+}
+
+@media print {
   .navbar {
-    min-width: 1250px !important;
+    //min-width: 1250px !important;
+  }
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  /*For internet explorer*/
+  #logo_div {
+    margin: auto;
+    top: 55px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+  /* Safari only override */ 
+  #logo_div {
+    margin: auto;
+    top: 55px;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
 }

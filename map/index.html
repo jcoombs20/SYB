@@ -10,7 +10,8 @@
     <!-- Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <!--script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script-->
-    <script src="leaflet.js"></script>
+    <!--script src="leaflet.js"></script-->
+    <script src="leaflet_1.2/leaflet.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script src="http://maps.google.com/maps/api/js?key=AIzaSyD06fNyTVLFLpDBMTUkh-YrUlA-ba1og54"></script>
@@ -24,7 +25,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="leaflet.css"/>
+    <!--link rel="stylesheet" href="leaflet.css"/-->
+    <link rel="stylesheet" href="leaflet_1.2/leaflet.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="Control.BingGeocoder.css"/>
     <link rel="stylesheet" href="Control.extentHistory.css"/>
@@ -51,10 +53,29 @@
         </div>
         <ul class="nav navbar-nav">
           <li><a href="..">Home</a></li>
-          <li><a href="../minors">Minors</a></li>
-          <li><a href="../rookies">Rookies</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Minors <span class="caret"></span></a>
+            <ul class="dropdown-menu inverse-dropdown">
+              <li><a href="../minors/2017">2017</a></li>
+              <li><a href="../minors/2016">2016</a></li>
+              <li><a href="../minors/2015">2015</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Rookies <span class="caret"></span></a>
+            <ul class="dropdown-menu inverse-dropdown">
+              <li><a href="../rookies/2016">2016</a></li>
+              <li><a href="../rookies/2015">2015</a></li>
+            </ul>
+          </li>
           <li><a href="../about">About SYB</a></li>
-          <li><a href="../tournament">Basketball Tournament</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Basketball Tournament <span class="caret"></span></a>
+            <ul class="dropdown-menu inverse-dropdown">
+              <li><a href="../tournament/2018">2018</a></li>
+              <li><a href="../tournament/2017">2017</a></li>
+            </ul>
+          </li>
           <li class="active"><a href="#">Field Map</a></li>
           <li><a href="../contact">Contact SYB</a></li>
         </ul>

@@ -15,6 +15,26 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../syb.css">
 
+    <script>// <![CDATA[
+      $(document).ready(function() {
+        var name,from,to,subject,text;
+        $("#send_email").click(function(){
+          name = $("#name").val();
+          phone = $("#phone").val();     
+          email = $("#email").val();     
+          to = $("#to").val();
+          subject = $("#subject").val();
+          text = $("#msgContent").val();
+          $("#message").text("Sending E-mail...Please wait");
+          $.get("http://www.sunderlandyouthbaseball.org:3001/send",{name:name,phone:phone,email:email,to:to,subject:subject,text:text},function(data){
+            if(data=="sent") {
+              $("#message").empty().html("Email has been sent!");
+            }
+          });
+        });
+      });
+    </script>
+
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -24,27 +44,69 @@
       ga('create', 'UA-93197974-1', 'auto');
       ga('send', 'pageview');
     </script>
- </head>
+  </head>
   
- <body>
-   <nav class="navbar navbar-inverse navbar-fixed-top">
-     <div class="container-fluid">
-       <div class="navbar-header">
-         <a class="navbar-brand" href="..">Sunderland Youth Baseball</a>
-       </div>
-       <ul class="nav navbar-nav">
-         <li><a href="..">Home</a></li>
-         <li><a href="../minors">Minors</a></li>
-         <li><a href="../rookies">Rookies</a></li>
-         <li><a href="../about">About SYB</a></li>
-         <li><a href="../tournament">Basketball Tournament</a></li>
-         <li><a href="../map">Field Map</a></li>
-         <li class="active"><a href="#">Contact SYB</a></li>
-       </ul>
-     </div>
-   </nav>
-   <div id="content">
-     <p>Email form coming soon...</p>
-   </div>
- </body>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="..">Sunderland Youth Baseball</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li><a href="..">Home</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Minors <span class="caret"></span></a>
+            <ul class="dropdown-menu inverse-dropdown">
+              <li><a href="../minors/2017">2017</a></li>
+              <li><a href="../minors/2016">2016</a></li>
+              <li><a href="../minors/2015">2015</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Rookies <span class="caret"></span></a>
+            <ul class="dropdown-menu inverse-dropdown">
+              <li><a href="../rookies/2016">2016</a></li>
+              <li><a href="../rookies/2015">2015</a></li>
+            </ul>
+          </li>
+          <li><a href="../about">About SYB</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Basketball Tournament <span class="caret"></span></a>
+            <ul class="dropdown-menu inverse-dropdown">
+              <li><a href="../tournament/2018">2018</a></li>
+              <li><a href="../tournament/2017">2017</a></li>
+            </ul>
+          </li>
+          <li><a href="../map">Field Map</a></li>
+          <li class="active"><a href="#">Contact SYB</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div id="content">
+      <div id="logo_div" style="margin-right:50px;text-align:center;">
+        <img id="logo" src="../SYB_logo.png" alt="SYB Logo" style="height:188px;width:250px;display:block;margin:auto;margin-bottom:-20px;">
+        <img id="dugout" src="../pictures/dugout_reduced.jpg" alt="dugout" style="height:300px;">
+      </div>
+      <div id="emailDiv" class="email">
+        <!--p id="contact_name">Jason Coombs</p-->
+        <!--img src="../images/cb_logo_red.png" alt="Coldwell Banker"-->
+        <!--h4>4 Elm Street<br>South Deerfield, MA 01373<br>413-665-3771 Ext 102</h4-->
+        <br><span>Name:</span><br>
+        <input id="name" class="email" type="text" name="name" size="60" placeholder="Enter your name"</input><br>
+        <br><span>Phone:</span><br>
+        <input id="phone" class="email" type="text" size="60" placeholder="Enter your phone number"</input><br>
+        <br><span>From:</span><br>
+        <input id="email" class="email" type="email" size="60" placeholder="Enter your email address"</input><br>
+        <br><span>Subject:</span><br>
+        <input id="subject" class="email" type="text" size="60" placeholder="Add subject"</input><br>
+        <br><span>Message:</span><br>
+        <textarea id="msgContent" class="email" cols="61.5" rows="5" placeholder="Add message"></textarea><br>
+        <br>
+        <div id="emailSendDiv">
+          <button id="send_email" class="email">Send Email</button><br>
+          <span id="message"></span>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

@@ -26,30 +26,50 @@
     </script>
  </head>
   
- <body>
-   <nav class="navbar navbar-inverse navbar-fixed-top">
-     <div class="container-fluid">
-       <div class="navbar-header">
-         <a class="navbar-brand" href="#">Sunderland Youth Baseball</a>
-       </div>
-       <ul class="nav navbar-nav">
-         <li class="active"><a href="#">Home</a></li>
-         <li><a href="minors">Minors</a></li>
-         <li><a href="rookies">Rookies</a></li>
-         <li><a href="about">About SYB</a></li>
-         <li><a href="tournament">Basketball Tournament</a></li>
-         <li><a href="map">Field Map</a></li>
-         <li><a href="contact">Contact SYB</a></li>
-       </ul>
-     </div>
-   </nav>
-   <div id="content">
-     <div id="logo_div">
-       <img id="logo" src="SYB_logo.png" alt="SYB Logo">
-       <hr>
-       <a id="reg_a" href="SYB Registration Form 2017.pdf" target="_blank" title="2017 SYB Registration Form"><img id="reg_img" src="registration.jpg"><p>2017 SYB Registration Form</p></a>
-     </div>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Sunderland Youth Baseball</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Minors <span class="caret"></span></a>
+            <ul class="dropdown-menu inverse-dropdown">
+              <li><a href="minors/2017">2017</a></li>
+              <li><a href="minors/2016">2016</a></li>
+              <li><a href="minors/2015">2015</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Rookies <span class="caret"></span></a>
+            <ul class="dropdown-menu inverse-dropdown">
+              <li><a href="rookies/2016">2016</a></li>
+              <li><a href="rookies/2015">2015</a></li>
+            </ul>
+          </li>
+          <li><a href="about">About SYB</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Basketball Tournament <span class="caret"></span></a>
+            <ul class="dropdown-menu inverse-dropdown">
+              <li><a href="tournament/2018">2018</a></li>
+              <li><a href="tournament/2017">2017</a></li>
+            </ul>
+          </li>
+          <li><a href="map">Field Map</a></li>
+          <li><a href="contact">Contact SYB</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div id="content">
+      <img id="defense" src="pictures/team_defense_reduced.jpg" alt="defense">
+      <div id="logo_div" style="position:absolute;">
+        <img id="logo" src="SYB_logo.png" alt="SYB Logo">
+        <!--hr-->
+        <!--a id="reg_a" href="SYB Registration Form 2017.pdf" target="_blank" title="2017 SYB Registration Form"><img id="reg_img" src="registration.jpg"><p>2017 SYB Registration Form</p></a-->
+      </div>
   
-   </div>
- </body>
+    </div>
+  </body>
 </html>
