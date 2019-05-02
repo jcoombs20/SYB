@@ -37,7 +37,7 @@ body {
 }
 
 .navbar-nav {
-  max-width: 760px;
+  max-width: 1200px;
   float: left;
   margin: 0px !important;
 }
@@ -169,15 +169,31 @@ body {
 }
 
 #reg_img {
-  height: 200px;
+  height: 100px;
   border: 2px solid black;
   border-radius: 7px;
 }
 
 #logo {
-  width: 500px;
+  width: 400px;
   border-style: none;
   display: inline-block;
+  margin-bottom: -40px;
+}
+
+#upcoming {
+  width: 1070px;
+  background: rgba(0,0,255,0.1);
+  margin: auto;
+  border-radius: 10px;
+  color: yellow;
+  padding: 5px;
+}
+
+#upcoming a {
+  color: lime;
+  text-decoration: underline;
+  font-weight: bold;
 }
 
 #team_pic {
@@ -235,6 +251,34 @@ body {
   color: white;
 }
 
+#ad {
+  text-align: center;
+  margin-top: 15px;
+}
+
+#adName {
+  font-weight: bold;
+  background: darkred;
+  border: 2px solid black;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+#adLink:hover, #adLink:focus {
+  text-decoration: none;
+}
+
+#adLink p, #adLink p:focus, #adLink p:active, #adLink p:hover, #adLink p:visited {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+#adPic {
+  width: 173px;
+  border-radius: 4px;
+}
+
 .brackets {
   width: 100%;
   height: calc(100% - 20px);
@@ -253,7 +297,7 @@ body {
 
 #tournament {
   height: 100%;
-  width: 100%;
+  width: calc(100% - 173px);
 }
 
 #tournament li {
@@ -580,6 +624,7 @@ a.leaflet-control-layers-toggle {
   /* Safari only override */ 
   #logo_div {
     margin: auto;
+    margin-top: 0;
     top: 55px;
     left: 0;
     right: 0;

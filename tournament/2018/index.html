@@ -33,14 +33,12 @@
     <div id="navDiv">
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="../..">Sunderland Youth Baseball</a>
-        </div>
         <ul class="nav navbar-nav">
           <li><a href="../..">Home</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Minors <span class="caret"></span></a>
             <ul class="dropdown-menu inverse-dropdown">
+              <li><a href="../../minors/2018">2018</a></li>
               <li><a href="../../minors/2017">2017</a></li>
               <li><a href="../../minors/2016">2016</a></li>
               <li><a href="../../minors/2015">2015</a></li>
@@ -49,14 +47,22 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Rookies <span class="caret"></span></a>
             <ul class="dropdown-menu inverse-dropdown">
+              <li><a href="../../rookies/2018">2018</a></li>
               <li><a href="../../rookies/2016">2016</a></li>
               <li><a href="../../rookies/2015">2015</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Farm System <span class="caret"></span></a>
+            <ul class="dropdown-menu inverse-dropdown">
+              <li><a href="../../tball/2017">2017</a></li>
             </ul>
           </li>
           <li><a href="../../about">About SYB</a></li>
           <li class="dropdown active">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Basketball Tournament <span class="caret"></span></a>
             <ul class="dropdown-menu inverse-dropdown">
+              <li><a href="../2019">2019</a></li>
               <li class="active"><a href="#">2018</a></li>
               <li><a href="../2017">2017</a></li>
             </ul>
@@ -76,6 +82,13 @@
           <li id="program" onclick="changePill(this)"><a href="#">Program</a></li>
           <li id="results" onclick="changePill(this)"><a href="#">Winners</a></li>
         </ul>
+
+        <div id="ad">
+          <a id="adLink" target="_blank">
+            <p id="adName"></p>
+            <img id="adPic"></img>
+          </a>
+        </div>
       </div>
 
       <div id="tournament">
@@ -105,11 +118,13 @@
             <li id="sponsor_Gifts" onclick="changeTabSponsors(this)"><a href="#">Gifts & Donations</a></li>
           </ul>
           <div id="sponsorNames"></div>
-          <img id="sponsorAd">
+          <a id="sponsorLink" target="_blank">
+            <img id="sponsorAd">
+          </a>
         </div>
         <div id="bracket-program" class="brackets">
           <div id="programDiv">
-            <embed id="programPDF" src="SYB_Basketball_Tournament_Program_2017_ view_format.pdf">
+            <embed id="programPDF" src="SYB_Basketball_Tournament_Program_2018_view_format.pdf">
           </div>
         </div>
         <div id="bracket-results" class="brackets">
@@ -166,7 +181,9 @@
 
       //Global Variables
       teams = {};
-      sponsors = {}
+      sponsors = {};
+      usedAds = [];
+      adTimer = "";
       positions = [{"pic":"first_place", "label":"Champion"}, {"pic":"second_place", "label":"Runner-Up"}];
       queue()
         .defer(d3.tsv, 'team_response.tsv')
@@ -179,6 +196,9 @@
         listTeams();
         listSponsors();
         listPositions();
+
+        changeAd();
+        adTimer = window.setInterval(changeAd, 5000);
       }
 
       function listTeams() {
@@ -248,8 +268,25 @@
       }
 
       function loadAd(tmpAd) {
-        d3.select("#sponsorAd")
-          .property("src", "ads/" + d3.select(tmpAd).attr("value") + ".jpg");
+        d3.select("#sponsorAd").property("src", "ads/" + d3.select(tmpAd).attr("value") + ".jpg");
+        d3.select("#sponsorLink").attr("href", d3.select(tmpAd).attr("href"));
+      }
+
+
+      //***Rotate through ads under menu
+      function changeAd() {
+        do {
+          var tmpNum = Math.floor(Math.random() * sponsors.length);
+        }
+        while (usedAds.indexOf(tmpNum) != -1)
+        usedAds.push(tmpNum);
+        if(usedAds.length == sponsors.length) {
+          usedAds = [];
+        }
+
+        d3.select("#adName").text(sponsors[tmpNum].Business);
+        d3.select("#adPic").attr("src", "ads/" + sponsors[tmpNum].Abbrev + ".jpg");
+        d3.select("#adLink").attr("href", sponsors[tmpNum].website);
       }
 
       function listPositions() {

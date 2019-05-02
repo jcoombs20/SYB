@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SES Clock Cam</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <script type="text/javascript" src="http://www.umediaserver.net/bin/FlashPlayer/umsplayer.js" charset="utf-8"></script>
+  </head>
+
+  <body id="unload-trigger-element">
+    <h3>This is my example</h3>
+    <!–- player container -–>
+    <div id="player-container"></div>
+
+    <script type="text/javascript">
+      embedPlayer('player-container', {
+      flashvars : {
+        'rtmp' : 'rtmp://192.168.50.7:5119/live/clockcam',
+        'autoplay' : true     },
+        size : { width: 352, height: 240 },
+        playerStyle : 'quick' 
+      });
+    </script>
+  </body>
+</html>

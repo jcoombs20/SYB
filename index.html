@@ -29,14 +29,12 @@
   <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">Sunderland Youth Baseball</a>
-        </div>
         <ul class="nav navbar-nav">
           <li class="active"><a href="#">Home</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Minors <span class="caret"></span></a>
             <ul class="dropdown-menu inverse-dropdown">
+              <li><a href="minors/2018">2018</a></li>
               <li><a href="minors/2017">2017</a></li>
               <li><a href="minors/2016">2016</a></li>
               <li><a href="minors/2015">2015</a></li>
@@ -45,14 +43,22 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Rookies <span class="caret"></span></a>
             <ul class="dropdown-menu inverse-dropdown">
+              <li><a href="rookies/2018">2018</a></li>
               <li><a href="rookies/2016">2016</a></li>
               <li><a href="rookies/2015">2015</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Farm System <span class="caret"></span></a>
+            <ul class="dropdown-menu inverse-dropdown">
+              <li><a href="tball/2017">2017</a></li>
             </ul>
           </li>
           <li><a href="about">About SYB</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Basketball Tournament <span class="caret"></span></a>
             <ul class="dropdown-menu inverse-dropdown">
+              <li><a href="tournament/2019">2019</a></li>
               <li><a href="tournament/2018">2018</a></li>
               <li><a href="tournament/2017">2017</a></li>
             </ul>
@@ -63,11 +69,18 @@
       </div>
     </nav>
     <div id="content">
-      <img id="defense" src="pictures/team_defense_reduced.jpg" alt="defense">
+      <img id="defense" src="pictures/field_reduced.jpg" alt="defense">
       <div id="logo_div" style="position:absolute;">
         <img id="logo" src="SYB_logo.png" alt="SYB Logo">
-        <!--hr-->
-        <!--a id="reg_a" href="SYB Registration Form 2017.pdf" target="_blank" title="2017 SYB Registration Form"><img id="reg_img" src="registration.jpg"><p>2017 SYB Registration Form</p></a-->
+        <div id="upcoming">
+          <h1>Upcoming Events</h1>
+          <h3>30th Annual Sunderland Basketball Tournament</h3>
+          <p>Organized and run by Sunderland Youth Baseball, this year's tournament runs from March 13th through March 17th.<br>Go to our <a href="http://sunderlandyouthbaseball.org/tournament/2019">tournament</a> page to see the teams, brackets and sponsors of this great event!</p>
+          <br>
+          <h3>2019 Baseball Registration</h3>
+          <p>We will soon be accepting signups for the 2019 baseball season. Fill out the below form to register your player today!<p>
+          <a id="reg_a" href="SYB Registration Form 2019.pdf" target="_blank" title="2019 SYB Registration Form"><img id="reg_img" src="registration.jpg"></a>
+        </div>
       </div>
   
     </div>
